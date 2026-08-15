@@ -6,6 +6,12 @@
 
 **Synopses** replaces email/Google Docs/Excel for coordinating movie-synopsis translation into up to 190 languages, across three roles — **Producer**, **Translator**, and **Reviewer**.
 
+## Demo
+
+![Synopses demo — click-through across Producer, Translator, and Reviewer](docs/synopses-demo.gif)
+
+*A Producer triggers AI translation and distributes the work, a Translator polishes a draft with AI and submits it, and a Reviewer approves it — one continuous loop across all three roles.*
+
 ## Executive summary
 
 ### The problem

@@ -6,12 +6,6 @@
 
 **Synopses** replaces email/Google Docs/Excel for coordinating movie-synopsis translation into up to 190 languages, across three roles — **Producer**, **Translator**, and **Reviewer**.
 
-## Demo
-
-![Synopses demo — Producer bulk-translates a movie with AI, then opens another movie's actions menu](docs/synopses-demo.gif)
-
-*As a Producer: open "The Last Harvest," translate all 4 languages with AI in one click, head back to All Movies, then open "Glass Horizon" and check its actions menu — including Download all translations, available once every language is Done.*
-
 ## Executive summary
 
 ### The problem
@@ -31,6 +25,12 @@ Coordinating synopsis translation at scale — up to 190 languages per title —
 | **Producer** | Needs to create and distribute translation work across many languages and translators, and track it all without chasing status by hand | A single dashboard with status-gated actions (view/update/download/share/delete), per-language or bulk AI translation that auto-routes results to review, and a guided create-and-assign flow |
 | **Translator** | Needs one place to see assigned work, translate it (AI, manual, or both), and resolve reviewer feedback without losing context | A unified workspace with source and translation side by side, AI translate/polish available at any point in the flow, threaded reviewer comments with replies, and self-service absence management that automatically re-flags in-progress work as blocked |
 | **Reviewer** | Needs to check translations against the source quickly, leave actionable feedback, and get declined work back to the right person without a manual loop | A side-by-side review screen with an AI-assisted quality check, one-click approve, and decline-with-required-comment that automatically reassigns the task to the original translator |
+
+### Demo
+
+![Synopses demo — Producer bulk-translates a movie with AI, then opens another movie's actions menu](docs/synopses-demo.gif)
+
+*As a Producer: open "The Last Harvest," translate all 4 languages with AI in one click, head back to All Movies, then open "Glass Horizon" and check its actions menu — including Download all translations, available once every language is Done.*
 
 ### Impact this prototype demonstrates
 

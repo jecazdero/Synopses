@@ -6,6 +6,12 @@
 
 **Synopses** replaces email/Google Docs/Excel for coordinating movie-synopsis translation into up to 190 languages, across three roles — **Producer**, **Translator**, and **Reviewer**.
 
+## Demo
+
+![Synopses demo — Producer bulk-translates a movie with AI, then opens another movie's actions menu](docs/synopses-demo.gif)
+
+*As a Producer: open "The Last Harvest," translate all 4 languages with AI in one click, head back to All Movies, then open "Glass Horizon" and check its actions menu — including Download all translations, available once every language is Done.*
+
 ## Executive summary
 
 ### The problem

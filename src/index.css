@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-bg-base: #141414;
+  --color-bg-surface: #1f1f1f;
+  --color-bg-elevated: #2a2a2a;
+  --color-border-default: #333333;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b3b3b3;
+  --color-text-tertiary: #737373;
+
+  --color-accent-red: #e50914;
+
+  --color-status-todo: #808080;
+  --color-status-inprogress: #3b82f6;
+  --color-status-blocked: #e50914;
+  --color-status-review: #f5a623;
+  --color-status-done: #2ecc71;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .input {
+    @apply h-10 w-full rounded-md border border-border-default bg-bg-surface px-3.5 text-[13px] text-text-primary outline-none;
+  }
+  .input::placeholder {
+    @apply text-text-tertiary;
+  }
+  .input:focus {
+    @apply border-accent-red;
+  }
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}

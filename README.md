@@ -2,6 +2,8 @@
 
 ![Synopses overview](docs/synopses-overview.png)
 
+**Design file:** [figma.com/design/VCbxdDdbOWFtrQYIYSGp4O/Synopses](https://www.figma.com/design/VCbxdDdbOWFtrQYIYSGp4O/Synopses?node-id=0-1&t=PY4YevcXtJEqvaFM-1)
+
 **Synopses** replaces email/Google Docs/Excel for coordinating movie-synopsis translation into up to 190 languages, across three roles — **Producer**, **Translator**, and **Reviewer**.
 
 ## Executive summary
@@ -34,9 +36,7 @@ As a working prototype rather than a production deployment, "impact" here means 
 - **Feedback loops close automatically**: a decline carries its comment straight back to the translator's queue, instead of relying on someone to relay it
 - **Workload changes propagate on their own**: marking a translator absent immediately reflects across their in-progress work, with no manual reassignment step
 
-This repo is that prototype: every flow above is genuinely stateful and interactive, built directly from the validated Figma designs below.
-
-**Design file:** [figma.com/design/VCbxdDdbOWFtrQYIYSGp4O/Synopses](https://www.figma.com/design/VCbxdDdbOWFtrQYIYSGp4O/Synopses?node-id=0-1&t=PY4YevcXtJEqvaFM-1)
+This repo is that prototype: every flow above is genuinely stateful and interactive, built directly from the validated Figma designs above.
 
 ## Tech stack
 

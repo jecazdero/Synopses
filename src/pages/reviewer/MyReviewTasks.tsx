@@ -5,6 +5,8 @@ import { Header } from "../../components/Header";
 import { Icon } from "../../components/Icon";
 import { StatusBadge, StatusLegend } from "../../components/StatusBadge";
 import type { BadgeStatus, LegendFilter } from "../../components/StatusBadge";
+import { SetAbsenceModal } from "../../components/SetAbsenceModal";
+import { toast } from "../../components/Toast";
 
 const REVIEW_STATUSES: BadgeStatus[] = ["Review", "Approved", "Declined"];
 
@@ -12,8 +14,11 @@ export default function MyReviewTasks() {
   const movies = useStore((s) => s.movies);
   const users = useStore((s) => s.users);
   const currentUserId = useStore((s) => s.currentUserId);
+  const currentUser = useStore((s) => s.users.find((u) => u.id === s.currentUserId));
+  const setAbsence = useStore((s) => s.setAbsence);
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<LegendFilter>("All");
+  const [absenceOpen, setAbsenceOpen] = useState(false);
 
   const rows = useMemo(() => {
     const out: {
@@ -59,7 +64,15 @@ export default function MyReviewTasks() {
 
   return (
     <div className="min-h-full">
-      <Header />
+      <Header>
+        <button
+          onClick={() => setAbsenceOpen(true)}
+          className="flex items-center gap-2 rounded border border-border-default px-5 py-3 text-sm font-semibold text-text-primary"
+        >
+          <Icon name="event_busy" className="!text-base" />
+          Set Absence
+        </button>
+      </Header>
       <div className="flex flex-col gap-6 px-12 py-10">
         <div className="flex h-10 items-center justify-between">
           <h1 className="text-[28px] font-bold text-text-primary">My Review Tasks</h1>
@@ -127,6 +140,18 @@ export default function MyReviewTasks() {
           ))}
         </div>
       </div>
+
+      {absenceOpen && currentUser && (
+        <SetAbsenceModal
+          note="This records your availability. Review tasks already in your queue stay assigned to you — coverage reassignment isn't part of this prototype yet."
+          onClose={() => setAbsenceOpen(false)}
+          onSubmit={(reason, startDate, endDate) => {
+            setAbsence(currentUserId, { reason, startDate, endDate });
+            setAbsenceOpen(false);
+            toast(`Absence set (${reason}).`);
+          }}
+        />
+      )}
     </div>
   );
 }

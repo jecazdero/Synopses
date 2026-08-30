@@ -16,6 +16,8 @@
 
 **Claude Code brief:** [synopses-claude-code-brief.md](synopses-claude-code-brief.md)
 
+---
+
 ## Executive summary
 
 ### The problem

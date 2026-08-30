@@ -8,6 +8,8 @@
 
 **Project overview:** [docs/ai-collaboration-brief.md](docs/ai-collaboration-brief.md)
 
+**Claude Code brief:** [synopses-claude-code-brief.md](synopses-claude-code-brief.md)
+
 **Synopses** replaces email/Google Docs/Excel for coordinating movie-synopsis translation into up to 190 languages, across three roles — **Producer**, **Translator**, and **Reviewer**.
 
 ## Executive summary

@@ -2,6 +2,8 @@
 
 ![Synopses overview](docs/synopses-overview.png)
 
+**Live prototype:** [synopsesjz.netlify.app](https://synopsesjz.netlify.app/producer)
+
 **Design file:** [figma.com/design/VCbxdDdbOWFtrQYIYSGp4O/Synopses](https://www.figma.com/design/VCbxdDdbOWFtrQYIYSGp4O/Synopses?node-id=0-1&t=PY4YevcXtJEqvaFM-1)
 
 **Synopses** replaces email/Google Docs/Excel for coordinating movie-synopsis translation into up to 190 languages, across three roles — **Producer**, **Translator**, and **Reviewer**.

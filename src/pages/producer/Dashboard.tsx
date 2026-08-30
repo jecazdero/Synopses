@@ -1,14 +1,21 @@
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store";
 import { Header } from "../../components/Header";
 import { Icon } from "../../components/Icon";
-import { StatusBadge, StatusLegend } from "../../components/StatusBadge";
+import { StatusBadge, StatusLegend, type LegendFilter } from "../../components/StatusBadge";
 import { ProgressBar } from "../../components/ProgressBar";
 import { MovieActionsMenu } from "../../components/MovieActionsMenu";
 
 export default function Dashboard() {
   const movies = useStore((s) => s.movies);
   const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<LegendFilter>("All");
+
+  const filteredMovies = useMemo(
+    () => (statusFilter === "All" ? movies : movies.filter((m) => m.status === statusFilter)),
+    [movies, statusFilter],
+  );
 
   return (
     <div className="min-h-full">
@@ -25,7 +32,12 @@ export default function Dashboard() {
       <div className="flex flex-col gap-6 px-12 py-10">
         <div className="flex h-10 items-center justify-between">
           <h1 className="text-[28px] font-bold text-text-primary">All Movies</h1>
-          <StatusLegend statuses={["To do", "In progress", "Blocked", "Done"]} />
+          <StatusLegend
+            statuses={["To do", "In progress", "Blocked", "Done"]}
+            active={statusFilter}
+            onChange={setStatusFilter}
+            showAll
+          />
         </div>
 
         <div className="flex flex-col gap-px rounded-lg bg-border-default">
@@ -42,13 +54,15 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {movies.length === 0 && (
+          {filteredMovies.length === 0 && (
             <div className="rounded-b-lg bg-bg-surface px-6 py-10 text-center text-sm text-text-tertiary">
-              No movies yet — click Create to add your first synopsis.
+              {movies.length === 0
+                ? "No movies yet — click Create to add your first synopsis."
+                : `No movies with status "${statusFilter}".`}
             </div>
           )}
 
-          {movies.map((movie, i) => {
+          {filteredMovies.map((movie, i) => {
             const done = movie.translations.filter((t) => t.status === "Done").length;
             const total = movie.translations.length;
             return (
@@ -57,7 +71,7 @@ export default function Dashboard() {
                 onClick={() => navigate(`/producer/movie/${movie.id}`)}
                 className={`group flex cursor-pointer items-center gap-4 px-6 py-[18px] hover:bg-bg-elevated ${
                   i % 2 === 0 ? "bg-bg-surface" : "bg-bg-elevated"
-                } ${i === movies.length - 1 ? "rounded-b-lg" : ""}`}
+                } ${i === filteredMovies.length - 1 ? "rounded-b-lg" : ""}`}
               >
                 <div className="flex-1 truncate">
                   <span className="text-[15px] font-semibold text-text-primary group-hover:text-accent-red group-hover:underline">

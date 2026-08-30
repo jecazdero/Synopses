@@ -1,16 +1,19 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store";
 import { Header } from "../../components/Header";
 import { Icon } from "../../components/Icon";
-import { StatusBadge } from "../../components/StatusBadge";
-import type { BadgeStatus } from "../../components/StatusBadge";
+import { StatusBadge, StatusLegend } from "../../components/StatusBadge";
+import type { BadgeStatus, LegendFilter } from "../../components/StatusBadge";
+
+const REVIEW_STATUSES: BadgeStatus[] = ["Review", "Approved", "Declined"];
 
 export default function MyReviewTasks() {
   const movies = useStore((s) => s.movies);
   const users = useStore((s) => s.users);
   const currentUserId = useStore((s) => s.currentUserId);
   const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<LegendFilter>("All");
 
   const rows = useMemo(() => {
     const out: {
@@ -49,24 +52,23 @@ export default function MyReviewTasks() {
     return out;
   }, [movies, users, currentUserId]);
 
+  const filteredRows = useMemo(
+    () => (statusFilter === "All" ? rows : rows.filter((r) => r.status === statusFilter)),
+    [rows, statusFilter],
+  );
+
   return (
     <div className="min-h-full">
       <Header />
       <div className="flex flex-col gap-6 px-12 py-10">
         <div className="flex h-10 items-center justify-between">
           <h1 className="text-[28px] font-bold text-text-primary">My Review Tasks</h1>
-          <div className="flex items-center gap-4">
-            {(["Review", "Approved", "Declined"] as BadgeStatus[]).map((s) => (
-              <div key={s} className="flex items-center gap-1.5">
-                <span
-                  className={`inline-block size-2 rounded-full ${
-                    s === "Review" ? "bg-status-review" : s === "Approved" ? "bg-status-done" : "bg-status-blocked"
-                  }`}
-                />
-                <span className="text-xs font-medium text-text-secondary">{s}</span>
-              </div>
-            ))}
-          </div>
+          <StatusLegend
+            statuses={REVIEW_STATUSES}
+            active={statusFilter}
+            onChange={setStatusFilter}
+            showAll
+          />
         </div>
 
         <div className="flex flex-col gap-px rounded-lg bg-border-default">
@@ -81,19 +83,21 @@ export default function MyReviewTasks() {
             <Th className="w-[125px]">Comments</Th>
           </div>
 
-          {rows.length === 0 && (
+          {filteredRows.length === 0 && (
             <div className="rounded-b-lg bg-bg-surface px-5 py-10 text-center text-sm text-text-tertiary">
-              No review tasks assigned to you yet.
+              {rows.length === 0
+                ? "No review tasks assigned to you yet."
+                : `No review tasks with status "${statusFilter}".`}
             </div>
           )}
 
-          {rows.map((r, i) => (
+          {filteredRows.map((r, i) => (
             <div
               key={`${r.movieId}-${r.language}`}
               onClick={() => navigate(`/reviewer/${r.movieId}/${encodeURIComponent(r.language)}`)}
               className={`group flex cursor-pointer items-center gap-3 px-5 py-4 hover:bg-bg-elevated ${
                 i % 2 === 1 ? "bg-bg-elevated" : "bg-bg-surface"
-              } ${i === rows.length - 1 ? "rounded-b-lg" : ""}`}
+              } ${i === filteredRows.length - 1 ? "rounded-b-lg" : ""}`}
             >
               <div className="flex w-[220px] items-center gap-1.5">
                 <span className="text-sm font-semibold text-text-primary group-hover:text-accent-red group-hover:underline">

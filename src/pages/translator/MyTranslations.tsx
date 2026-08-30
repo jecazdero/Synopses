@@ -4,8 +4,11 @@ import { useStore } from "../../store";
 import { Header } from "../../components/Header";
 import { Icon } from "../../components/Icon";
 import { StatusBadge, StatusLegend } from "../../components/StatusBadge";
+import type { LegendFilter } from "../../components/StatusBadge";
 import { Modal } from "../../components/Modal";
 import { toast } from "../../components/Toast";
+
+const TRANSLATION_STATUSES = ["To do", "In progress", "Blocked", "Review", "Done"] as const;
 
 export default function MyTranslations() {
   const movies = useStore((s) => s.movies);
@@ -14,6 +17,7 @@ export default function MyTranslations() {
   const setAbsence = useStore((s) => s.setAbsence);
   const navigate = useNavigate();
   const [absenceOpen, setAbsenceOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<LegendFilter>("All");
 
   const rows = useMemo(() => {
     const out: { movieId: string; movieTitle: string; director: string; deadline: string; language: string; status: import("../../types").TranslationStatus; blockedReason: string | null; comments: number }[] = [];
@@ -36,6 +40,11 @@ export default function MyTranslations() {
     return out;
   }, [movies, currentUserId]);
 
+  const filteredRows = useMemo(
+    () => (statusFilter === "All" ? rows : rows.filter((r) => r.status === statusFilter)),
+    [rows, statusFilter],
+  );
+
   return (
     <div className="min-h-full">
       <Header>
@@ -51,7 +60,12 @@ export default function MyTranslations() {
       <div className="flex flex-col gap-6 px-12 py-10">
         <div className="flex h-10 items-center justify-between">
           <h1 className="text-[28px] font-bold text-text-primary">My Translations</h1>
-          <StatusLegend statuses={["To do", "In progress", "Blocked", "Review", "Done"]} />
+          <StatusLegend
+            statuses={[...TRANSLATION_STATUSES]}
+            active={statusFilter}
+            onChange={setStatusFilter}
+            showAll
+          />
         </div>
 
         <div className="flex flex-col gap-px rounded-lg bg-border-default">
@@ -64,19 +78,21 @@ export default function MyTranslations() {
             <Th className="w-[170px]">Comments</Th>
           </div>
 
-          {rows.length === 0 && (
+          {filteredRows.length === 0 && (
             <div className="rounded-b-lg bg-bg-surface px-6 py-10 text-center text-sm text-text-tertiary">
-              No translations assigned to you yet.
+              {rows.length === 0
+                ? "No translations assigned to you yet."
+                : `No translations with status "${statusFilter}".`}
             </div>
           )}
 
-          {rows.map((r, i) => (
+          {filteredRows.map((r, i) => (
             <div
               key={`${r.movieId}-${r.language}`}
               onClick={() => navigate(`/translator/${r.movieId}/${encodeURIComponent(r.language)}`)}
               className={`group flex cursor-pointer items-center gap-3.5 px-6 py-4 hover:bg-bg-elevated ${
                 i % 2 === 1 ? "bg-bg-elevated" : "bg-bg-surface"
-              } ${i === rows.length - 1 ? "rounded-b-lg" : ""}`}
+              } ${i === filteredRows.length - 1 ? "rounded-b-lg" : ""}`}
             >
               <div className="flex w-[280px] items-center gap-1.5">
                 <span className="text-sm font-semibold text-text-primary group-hover:text-accent-red group-hover:underline">
@@ -90,7 +106,7 @@ export default function MyTranslations() {
               <div className="w-[160px] text-[13px] text-text-secondary">{r.language}</div>
               <div className="w-[195px] text-[13px] text-text-secondary">{r.director}</div>
               <div className="w-[160px] text-[13px] text-text-secondary">{formatDate(r.deadline)}</div>
-              <div className="flex w-[255px] flex-col gap-0.5">
+              <div className="flex w-[255px] flex-col items-start gap-0.5">
                 <StatusBadge status={r.status} />
                 {r.status === "Blocked" && r.blockedReason && (
                   <span className="text-[11px] font-medium text-status-blocked">{r.blockedReason}</span>

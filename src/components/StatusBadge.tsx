@@ -28,15 +28,59 @@ export function StatusDot({ status, className = "" }: { status: BadgeStatus; cla
   return <span className={`inline-block size-[8px] rounded-full ${STATUS_COLOR[status]} ${className}`} />;
 }
 
-export function StatusLegend({ statuses }: { statuses: BadgeStatus[] }) {
+export type LegendFilter = BadgeStatus | "All";
+
+export function StatusLegend({
+  statuses,
+  active,
+  onChange,
+  showAll = false,
+}: {
+  statuses: BadgeStatus[];
+  /** Provide `active` + `onChange` to turn the legend into a click-to-filter control. */
+  active?: LegendFilter;
+  onChange?: (status: LegendFilter) => void;
+  showAll?: boolean;
+}) {
+  const items: LegendFilter[] = showAll ? ["All", ...statuses] : statuses;
+
   return (
     <div className="flex items-center gap-4">
-      {statuses.map((s) => (
-        <div key={s} className="flex items-center gap-1.5">
-          <StatusDot status={s} />
-          <span className="text-xs font-medium text-text-secondary">{s}</span>
-        </div>
-      ))}
+      {items.map((s) => {
+        const isActive = active === s;
+        const inner = (
+          <>
+            {s !== "All" && <StatusDot status={s} />}
+            <span
+              className={`text-xs font-medium ${
+                onChange && isActive ? "text-text-primary" : "text-text-secondary"
+              }`}
+            >
+              {s}
+            </span>
+          </>
+        );
+
+        if (!onChange) {
+          return (
+            <div key={s} className="flex items-center gap-1.5">
+              {inner}
+            </div>
+          );
+        }
+
+        return (
+          <button
+            key={s}
+            onClick={() => onChange(s)}
+            className={`flex items-center gap-1.5 rounded-full transition-opacity ${
+              isActive ? "opacity-100" : "opacity-60 hover:opacity-100"
+            }`}
+          >
+            {inner}
+          </button>
+        );
+      })}
     </div>
   );
 }

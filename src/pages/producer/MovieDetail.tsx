@@ -236,7 +236,7 @@ function LanguageRow({
         {t.assignedDate ? formatDate(t.assignedDate) : "—"}
       </div>
       <div className="w-[110px] text-[13px] text-text-secondary">{t.daysSpent ? `${t.daysSpent} days` : "—"}</div>
-      <div className="flex w-[170px] flex-col gap-0.5">
+      <div className="flex w-[170px] flex-col items-start gap-0.5">
         <StatusBadge status={t.status} />
         {t.status === "Blocked" && t.blockedReason && (
           <span className="text-[11px] font-medium text-status-blocked">{t.blockedReason}</span>
